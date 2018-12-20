@@ -5,13 +5,17 @@
     <script src="https://www.gstatic.com/firebasejs/5.4.2/firebase.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,800,900" rel="stylesheet">
     <script src="https://apis.google.com/js/api.js"></script>
     <style>
       *{
         margin: 0;
         padding: 0;
       }
+
+      
+      
+
 
       #main{
         overflow: auto;
@@ -29,20 +33,11 @@
         padding: 0; 
         margin: 0;
         display: flex;
-        flex-direction: column
+        flex-direction: column;
+        background-color: snow;
+        align-items: center
       }
-      h1{
-        font-family: 'Arial';
-        font-weight: 800;
-        font-size: 24px;
-      }
-      h2{ 
-        font-family: 'Share Tech Mono', monospace;
-        text-transform: uppercase;
-        font-weight: 900;
-        font-size: 48px;
-        color: black;
-      }
+    
       .logo{
         height: 48px;
       }
@@ -80,6 +75,7 @@
           display: flex;
           flex-direction: row;
       }
+      
       .header-toolbar{
         display: flex;
         flex-direction: row;
@@ -103,6 +99,117 @@
       .header-toolbar-button .material-icons{
         font-size: 32px !important;
       }
+      
+      .app-section{
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        box-sizing: border-box
+      }
+
+      .card{
+        background-color: white;
+        padding: 32px;
+        border: 1px solid rgb(200,200,200);
+        display: flex;
+        flex-direction: column;
+        border-radius: 16px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .card-list{
+        border-radius: 16px;
+        box-sizing: border-box;
+        width: 100%;
+        background-color: white;
+        border: 1px solid rgb(200,200,200);
+      }
+      .card-list li{
+        padding: 16px 32px;
+        border-bottom: 1px solid rgb(200,200,200);
+
+        list-style: none;
+      }
+
+      h1{
+        padding: 16px;
+        font-family: 'Source Sans Pro', sans-serif;
+        font-size: 48px;
+        font-weight: 800;
+        color: #a28904;
+        width: 100%;
+        box-sizing: border-box
+      }
+      h2{
+        font-family: 'Source Sans Pro', sans-serif;
+        font-size: 40px;
+        font-weight: 600
+      }
+      h3{
+        font-family: 'Source Sans Pro', sans-serif;
+        font-size: 24px;
+        font-weight: 800
+      }
+      .emphasis-main{
+        font-family: 'Source Sans Pro', sans-serif;
+        font-size: 120px;
+      }
+      .emphasis-1{
+        font-family: 'Source Sans Pro', sans-serif;
+        font-size: 32px;
+        font-weight: 600
+      }
+      .comment-1{
+        font-family: 'Source Sans Pro', sans-serif;
+        font-size: 24px;
+        color: rgb(160,160,160);
+        font-weight: 800
+      }
+      .tag{
+        margin: 4px;
+        padding: 8px 16px;
+        font-family: 'Source Sans Pro', sans-serif;
+        font-size: 24px;
+        font-weight: 600;
+        background-color: rgb(0,122,245);
+        display: flex;
+        border-radius: 24px; 
+        color: white
+      }
+
+      .line-break{
+        height: 1px;
+        width: 100%
+      }
+      .line-break.bottom-space{
+        margin-bottom: 8px;
+      }
+      .line-break.top-space{
+        margin-top: 8px;
+      }
+
+      .account-balance{
+        align-items: center;
+        max-width: 1020px; 
+      }
+      .account-summary{
+        flex-direction: row;
+        max-width: 1020px; 
+      }
+      .groups{
+        max-width: 1020px;
+      }
+      .account-summary>*{
+        flex: 1;
+        display: flex;
+        flex-direction: column; 
+        align-items: center;
+      }
+      .account-groups{
+        flex-direction: column
+      }
     </style>
   </head>
   <body>
@@ -117,6 +224,41 @@
         <div class="header-toolbar-button"><i class="material-icons">business</i></div>
       </div>
     </div>
-    
+    <h1 class="app-title">MI ESTADO</h1>
+    <div class="app-section" style="text-align: center">
+      <div class="card account-balance">
+          <span class="emphasis-main">$538</span>
+          <hr class="line-break bottom-space">
+          <h2>Eduardo Villalpando</h2>
+          <div class="tag">A01023646</div>
+      </div>
+    </div>
+    <div class="app-section account-summary">
+      <div>
+        <i class="material-icons" style="font-size: 64px;">arrow_upward</i>
+        <h3>DEPÓSITOS (5)</h2>
+        <span class="emphasis-1">$1307</span>
+      </div>
+      <div>
+        <i class="material-icons" style="font-size: 64px;">arrow_downward</i>
+        <h3>CARGOS (3)</H3>
+        <span class="emphasis-1">$1307</span>
+      </div>
+    </div>
+    <div class="app-section account-groups">
+      <ul class="card-list groups">
+        <li><h3>Ctrl Alt Tec</h3></li>
+        <li><h3>Mesa Directiva</h3></li>
+        <li><h3>Finanzas</h3></li>
+        <li><h3>Marketing</h3></li>
+        <li><h3>Logística</h3></li>
+        <li><h3>Playeras</h3></li>
+        <li><h3>Kiwi</h3></li>
+        <li><h3>Hackathon</h3></li>
+        <li><h3>Pláticas</h3></li>
+        <li><h3>Pláticas</h3></li>
+      </ul>
+    </div>
+
   </body>
 </html>
