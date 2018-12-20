@@ -1,5 +1,22 @@
 <html>
   <head>
+    
+    
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyDlqcRMOR7P4PeKnnY3-6OEjMHZ2xnG3bc",
+        authDomain: "ctrl-alt-tec-api.firebaseapp.com",
+        databaseURL: "https://ctrl-alt-tec-api.firebaseio.com",
+        projectId: "ctrl-alt-tec-api",
+        storageBucket: "ctrl-alt-tec-api.appspot.com",
+        messagingSenderId: "613390401674"
+      };
+      firebase.initializeApp(config);
+      
+    </script>
+
     <title>CTRL+ALT+TEC Bank</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.75">
     <script src="https://www.gstatic.com/firebasejs/5.4.2/firebase.js"></script>
@@ -8,15 +25,14 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,800,900" rel="stylesheet">
     <script src="https://apis.google.com/js/api.js"></script>
     <style>
+      .app.modal-isopen{
+        filter: brightness(0.4) blur(16px);
+        position: fixed
+      }
       *{
         margin: 0;
         padding: 0;
       }
-
-      
-      
-
-
       #main{
         overflow: auto;
         padding-bottom: 100px;
@@ -29,13 +45,14 @@
         flex-grow: 1;
         padding: 16px
       }
-      body{
+      body, .app{
         padding: 0; 
         margin: 0;
         display: flex;
         flex-direction: column;
         background-color: snow;
-        align-items: center
+        align-items: center;
+        width: 100%;
       }
     
       .logo{
@@ -92,14 +109,24 @@
         border-radius: 32px;
         flex: 1;
         background-color: #cdac00;
-        color: white;
         font-size: 16px;
         font-weight: 600
       }
       .header-toolbar-button .material-icons{
         font-size: 32px !important;
       }
-      
+      .fab{
+        position: fixed;
+        bottom: 32px;
+        right: 32px;
+        width: 80px;
+        height: 80px;
+        background-color: #cdac00;
+        border-radius: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center
+      }
       .app-section{
         padding: 16px;
         display: flex;
@@ -129,8 +156,30 @@
       .card-list li{
         padding: 16px 32px;
         border-bottom: 1px solid rgb(200,200,200);
-
+        font-family: 'Source Sans Pro', sans-serif;
         list-style: none;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between
+      }
+      .modal{
+        position: fixed;
+        width: 80px;
+        height: 80px;
+        background:white;
+        padding: 16px;
+        border-radius: 16px;
+        width: 100%;
+        max-width: 1020px;
+        top: auto;
+        bottom: auto;
+        left: auto;
+        right: auto;
+        height: auto;
+        max-height: 100%;
+        overflow: auto;
+        display: flex;
+        flex-direction: column
       }
 
       h1{
@@ -140,7 +189,8 @@
         font-weight: 800;
         color: #a28904;
         width: 100%;
-        box-sizing: border-box
+        box-sizing: border-box;
+        max-width: 1020px;
       }
       h2{
         font-family: 'Source Sans Pro', sans-serif;
@@ -150,7 +200,7 @@
       h3{
         font-family: 'Source Sans Pro', sans-serif;
         font-size: 24px;
-        font-weight: 800
+        font-weight: 600
       }
       .emphasis-main{
         font-family: 'Source Sans Pro', sans-serif;
@@ -180,7 +230,7 @@
       }
 
       .line-break{
-        height: 1px;
+        height: 0px;
         width: 100%
       }
       .line-break.bottom-space{
@@ -210,55 +260,151 @@
       .account-groups{
         flex-direction: column
       }
+
+      .input-text{
+        display: flex;
+        width: -webkit-fill-available;
+        -webkit-appearance: none;
+        font-family: 'Source Sans Pro', sans-serif;
+        padding: 8px;
+        border: none;
+        border-radius: 16px;
+        margin: 8px
+      }
+      .input-text:invalid{
+        background: rgb(200,200,200)
+      }
+      .input-text:valid{
+        background: transparent;
+        padding: 8px 0px;
+        border-radius: 0px;
+        border-bottom: 2px solid rgb(200,200,200);
+      }
+
+      .input-text.transparent{
+        background: transparent;
+        border: none;
+      }
+      .input-text:valid:active{
+        border-bottom: 2px solid rgb(0,122,255);
+      }
+      .input-radio-button{
+        display: flex;
+        border-radius: 16px; 
+        margin: 8px
+      }
+      .input-radio-button>label:first-of-type{
+        border-top-left-radius: 16px;
+        border-bottom-left-radius: 16px
+      }
+      .input-radio-button>label:last-of-type{
+        border-top-right-radius: 16px;
+        border-bottom-right-radius: 16px
+      }
+
+      input[type="radio"]{
+        display: none;
+      }
+      input[type="radio"]+label{
+        background: rgb(200,200,200);
+        width: 50%;
+        padding: 8px;
+        font-family: 'Source Sans Pro', sans-serif;
+        text-align: center;
+        font-size: 18px; 
+      }
+      input[type="radio"]:checked+label{
+        background: rgb(0,122,245);
+        color: white
+      }
     </style>
   </head>
   <body>
-    <div class='header'>
-      <div class="header-top">
-        <a href="http://ctrl-alt-tec.github.io/Website" style="margin-right: 8px"><img src='https://ctrl-alt-tec.github.io/Website/img/LOGO-INLINE.png' height="48px"/></a>
-        <img class="logo" src="logo-name.png">
+    <div class="app modal-isopen">
+      <div class='header'>
+        <div class="header-top">
+          <a href="http://ctrl-alt-tec.github.io/Website" style="margin-right: 8px"><img src='https://ctrl-alt-tec.github.io/Website/img/LOGO-INLINE.png' height="48px"/></a>
+          <img class="logo" src="logo-name.png">
+        </div>
+        <div class="header-toolbar">
+          <div class="header-toolbar-button"><i class="material-icons">account_circle</i></div>
+          <div class="header-toolbar-button"><i class="material-icons">history</i></div>
+          <div class="header-toolbar-button"><i class="material-icons">business</i></div>
+        </div>
       </div>
-      <div class="header-toolbar">
-        <div class="header-toolbar-button"><i class="material-icons">account_circle</i></div>
-        <div class="header-toolbar-button"><i class="material-icons">history</i></div>
-        <div class="header-toolbar-button"><i class="material-icons">business</i></div>
+      <h1 class="app-title">MI ESTADO</h1>
+      <div class="app-section" style="text-align: center">
+        <div class="card account-balance">
+            <span class="emphasis-main">$538</span>
+            <hr class="line-break bottom-space">
+            <h2>Eduardo Villalpando</h2>
+            <div class="tag">A01023646</div>
+        </div>
       </div>
+      <div class="app-section account-summary">
+        <div>
+          <i class="material-icons" style="font-size: 64px;">arrow_upward</i>
+          <h3>DEPÓSITOS (5)</h2>
+          <span class="emphasis-1">$1307</span>
+        </div>
+        <div>
+          <i class="material-icons" style="font-size: 64px;">arrow_downward</i>
+          <h3>CARGOS (3)</H3>
+          <span class="emphasis-1">$1307</span>
+        </div>
+      </div>
+      <div class="app-section account-groups">
+        <ul class="card-list groups">
+          <h2 style="padding: 16px 32px">GRUPOS</h2>
+          <li><h3>Ctrl Alt Tec</h3>Admin</li>
+          <li><h3>Mesa Directiva</h3>Admin</li>
+          <li><h3>Finanzas</h3>Miembro</li>
+          <li><h3>Marketing</h3>Miembro</li>
+          <li><h3>Logística</h3>Miembro</li>
+          <li><h3>Playeras</h3>Admin</li>
+          <li><h3>Kiwi</h3>Miembro</li>
+          <li><h3>Hackathon</h3>Miembro</li>
+          <li><h3>Pláticas</h3>Miembro</li>
+          <li><h3>Pláticas</h3></li>
+        </ul>
+      </div>
+      
     </div>
-    <h1 class="app-title">MI ESTADO</h1>
-    <div class="app-section" style="text-align: center">
-      <div class="card account-balance">
-          <span class="emphasis-main">$538</span>
-          <hr class="line-break bottom-space">
-          <h2>Eduardo Villalpando</h2>
-          <div class="tag">A01023646</div>
-      </div>
-    </div>
-    <div class="app-section account-summary">
-      <div>
-        <i class="material-icons" style="font-size: 64px;">arrow_upward</i>
-        <h3>DEPÓSITOS (5)</h2>
-        <span class="emphasis-1">$1307</span>
-      </div>
-      <div>
-        <i class="material-icons" style="font-size: 64px;">arrow_downward</i>
-        <h3>CARGOS (3)</H3>
-        <span class="emphasis-1">$1307</span>
-      </div>
-    </div>
-    <div class="app-section account-groups">
-      <ul class="card-list groups">
-        <li><h3>Ctrl Alt Tec</h3></li>
-        <li><h3>Mesa Directiva</h3></li>
-        <li><h3>Finanzas</h3></li>
-        <li><h3>Marketing</h3></li>
-        <li><h3>Logística</h3></li>
-        <li><h3>Playeras</h3></li>
-        <li><h3>Kiwi</h3></li>
-        <li><h3>Hackathon</h3></li>
-        <li><h3>Pláticas</h3></li>
-        <li><h3>Pláticas</h3></li>
-      </ul>
-    </div>
+    <div class="modal">
+        <h1 class="app-title">NUEVA OPERACION</h1>
+        <form style="padding: 0px 8px">
+          <h3 style="margin: 0px 8px">Necesito</h3>
+          <div class="input-radio-button">
+              <input type="radio" name="TYPE" value="PAYMENT" id="TYPE_PAYMENT"> <label for="TYPE_PAYMENT">PAGAR</label>
+              <input type="radio" name="TYPE" value="RETRIEVAL" id="TYPE_RETRIEVAL"><label for="TYPE_RETRIEVAL">PEDIR</label>
+            </div>
+          <input type="text" class="input-text transparent emphasis-main" placeholder="$12">
+          <h3 style="margin: 0px 8px">A la orden de</h3>
+          <input type="text" class="input-text" placeholder="A0102XXXX" required="required" style="font-size: 24px">
+          <h3 style="margin: 0px 8px; margin-top: 32px">Concepto:</h3>
+          <input type="text" class="input-text" placeholder="Pago de materiales" required="required" style="font-size: 24px">
+          <hr class="line-break bottom-space top-space" style="margin-top: 32px">
+          qwert
 
+        </form>
+    </div>
+    <div class="fab">
+          <i class="material-icons" style="font-size: 64px;">add</i>
+      </div>
+    <script>
+      document.querySelector(".fab").addEventListener("click", showModalDialog);
+      document.querySelector(".app.modal-isopen").addEventListener("click", hideModalDialog);
+      function showModalDialog(){
+        document.querySelector(".app").classList.add("modal-isopen");
+        document.querySelector(".modal").style.display = "flex";
+        document.querySelector(".fab").style.display = "none";
+      }  
+      function hideModalDialog(){
+        document.querySelector(".app").classList.remove("modal-isopen");
+        document.querySelector(".modal").style.display = "none";
+        document.querySelector(".fab").style.display = "flex";
+      }
+
+    </script>
   </body>
 </html>
