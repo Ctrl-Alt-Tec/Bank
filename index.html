@@ -1,0 +1,122 @@
+<html>
+  <head>
+    <title>CTRL+ALT+TEC Bank</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://www.gstatic.com/firebasejs/5.4.2/firebase.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+    <script src="https://apis.google.com/js/api.js"></script>
+    <style>
+      *{
+        margin: 0;
+        padding: 0;
+      }
+
+      #main{
+        overflow: auto;
+        padding-bottom: 100px;
+        padding-top: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+        flex-grow: 1;
+        padding: 16px
+      }
+      body{
+        padding: 0; 
+        margin: 0;
+        display: flex;
+        flex-direction: column
+      }
+      h1{
+        font-family: 'Arial';
+        font-weight: 800;
+        font-size: 24px;
+      }
+      h2{ 
+        font-family: 'Share Tech Mono', monospace;
+        text-transform: uppercase;
+        font-weight: 900;
+        font-size: 48px;
+        color: black;
+      }
+      .logo{
+        height: 48px;
+      }
+      footer .logo{
+        margin-left: auto;
+        margin-right: auto;
+        height: 70px;
+      }
+  
+      .header{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        align-content: center;
+        position: sticky; 
+        margin: 0;
+        background-color: #e6c200;
+        width: 100%;
+        padding: 0px;
+        font-family: 'Arial';
+        font-size: 16;
+        top: 0; 
+        box-sizing: border-box;
+        justify-content: space-between;
+        flex-wrap: wrap
+      }
+      .header>*{
+        display: flex;
+        text-align: center;
+        align-items: center;
+        margin: 8px;
+        padding: 8px;
+      }
+      .header-top{
+          display: flex;
+          flex-direction: row;
+      }
+      .header-toolbar{
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 658px;
+        box-sizing: border-box;
+        padding: 0px
+      }
+      .header-toolbar-button{
+        padding: 16px;
+        margin: 4px;
+        border-radius: 32px;
+        flex: 1;
+        background-color: #cdac00;
+        color: white;
+        font-size: 16px;
+        font-weight: 600
+      }
+      .header-toolbar-button .material-icons{
+        font-size: 32px !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class='header'>
+      <div class="header-top">
+        <a href="http://ctrl-alt-tec.github.io/Website" style="margin-right: 8px"><img src='https://ctrl-alt-tec.github.io/Website/img/LOGO-INLINE.png' height="48px"/></a>
+        <img class="logo" src="logo-name.png">
+      </div>
+      <div class="header-toolbar">
+        <div class="header-toolbar-button"><i class="material-icons">account_circle</i></div>
+        <div class="header-toolbar-button"><i class="material-icons">history</i></div>
+        <div class="header-toolbar-button"><i class="material-icons">business</i></div>
+      </div>
+    </div>
+    
+  </body>
+</html>
