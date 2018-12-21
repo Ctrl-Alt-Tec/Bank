@@ -256,23 +256,16 @@
       .account-groups{
         flex-direction: column
       }
-      .allTransfers .transfer:first-of-type{
-        border-top-left-radius: 16px;
-        border-top-right-radius: 16px;
-      }
-      .allTransfers .transfer:last-of-type{
-        border-bottom-left-radius: 16px;
-        border-bottom-right-radius: 16px;
-      }
+      
       .transfer{
         width: 100%;
         max-width: 1020px;
-        padding: 8px 16px; 
+        padding: 0px; 
         flex-direction: column;
-        border-radius: 0px
+        margin: 8px
       }
       .transfer>*{
-        margin: 8px 16px;
+        padding: 16px 32px;
       }
       .transfer>.emphasis-sub{
         text-align: center; 
@@ -282,6 +275,9 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        background: rgb(240,240,240);
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
       }
       .transfer .transfer-details>*{
         flex: 1
@@ -426,15 +422,7 @@
 
       <h1 class="app-title">TRANSFERENCIAS</h1>
       <div class="app-section allTransfers">
-        <div class="card transfer">
-          <div class="emphasis-sub">$32</div>
-          <hr class="line-break bottom-space">
-          <div class="transfer-details">
-            <h3>Eduardo Villalpando</h3>
-            <i class="material-icons" style="font-size: 40px">arrow_forward</i>
-            <h3>Juan Carlos Garfias</h3>
-          </div>
-        </div>
+        
       </div>
     </div>
 
@@ -472,6 +460,13 @@
         messagingSenderId: "613390401674"
       };
       firebase.initializeApp(config);
+
+      firebase.auth().onAuthStateChanged(function(user){
+        if(!user){
+          window.location = "login.html"
+        }
+      })
+
       returnBankTransfers();
       document.querySelector(".fab").addEventListener("click", showModalDialog);
       document.querySelector(".app.modal-isopen").addEventListener("click", hideModalDialog);
