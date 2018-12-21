@@ -198,7 +198,7 @@
       }
       .emphasis-sub{
         font-family: 'Source Sans Pro', sans-serif;
-        font-size: 64px;
+        font-size: 40px;
         font-weight: 600;
       }
       .emphasis-1{
@@ -256,12 +256,20 @@
       .account-groups{
         flex-direction: column
       }
+      .allTransfers .transfer:first-of-type{
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+      }
+      .allTransfers .transfer:last-of-type{
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+      }
       .transfer{
         width: 100%;
         max-width: 1020px;
         padding: 8px 16px; 
         flex-direction: column;
-        margin: 8px 0px
+        border-radius: 0px
       }
       .transfer>*{
         margin: 8px 16px;
@@ -478,9 +486,6 @@
             var cardEmphsis = document.createElement("div")
             cardEmphsis.setAttribute("class","emphasis-sub");
 
-            var cardHr = document.createElement("hr")
-            cardHr.setAttribute("class","line-break bottom-space");
-
             var cardTransferDetails = document.createElement("div")
             cardTransferDetails.setAttribute("class","transfer-details");
 
@@ -500,7 +505,6 @@
             cardTransferDetails.appendChild(cardTransferDetailsLast)
 
             documentCard.appendChild(cardEmphsis)
-            documentCard.appendChild(cardHr)
             documentCard.appendChild(cardTransferDetails)
 
 
