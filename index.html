@@ -387,8 +387,8 @@
         <div class="card account-balance">
             <span class="emphasis-main">$538</span>
             <hr class="line-break bottom-space">
-            <h2>Eduardo Villalpando</h2>
-            <div class="tag">A01023646</div>
+            <h2 class="_user-name"></h2>
+            <div class="tag _user-id"></div>
         </div>
       </div>
       <div class="app-section account-summary">
@@ -464,9 +464,12 @@
       firebase.auth().onAuthStateChanged(function(user){
         if(!user){
           window.location = "login.html"
+        }else{
+          document.querySelector("._user-name").innerHTML = firebase.auth().currentUser.displayName;
+          document.querySelector("._user-id").innerHTML = firebase.auth().currentUser.email.split("@")[0];
         }
       })
-
+      
       returnBankTransfers();
       document.querySelector(".fab").addEventListener("click", showModalDialog);
       document.querySelector(".app.modal-isopen").addEventListener("click", hideModalDialog);
@@ -528,7 +531,7 @@
           QUANTITY: QUANTITY,
           DATE: new Date(),
           FINISHED: false, 
-          USER: 'TEST',
+          USER: firebase.auth().currentUser.email.split("@")[0],
           TYPE: 'PAYMENT'
         }
         firebase.firestore().collection("bankTransfers").doc().set(submitTransferObj)

@@ -6,7 +6,6 @@
     <title>CTRL+ALT+TEC Bank</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.75">
     <meta charset="utf-8">
-
     <script src="https://www.gstatic.com/firebasejs/5.4.2/firebase.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
@@ -392,16 +391,20 @@
       <div class="app-section" style="text-align: center">
         <div class="card ctrl-alt-tec_auth">
             <img src="https://ctrl-alt-tec.hackclub.com/img/logo-block.png" id="login-logo">
-            <h1 class="app-title" style="text-align: center">INCIAR SESIÓN</h1>
+            <h1 class="app-title" style="text-align: center">CREAR CUENTA</h1>
             <hr class="line-break bottom-space top-space" style="margin: auto 8px; width: auto">
-            <h3 style="margin: 0px 8px">USUARIO</h3>
-            <input type="text" class="input-text input_MAIL" placeholder="A0102XXXX" required="required" style="font-size: 24px">
+            <h3 style="margin: 0px 8px">NOMBRE</h3>
+            <input type="text" class="input-text input_NAME" placeholder="Jonathan Appleseed" required="required" style="font-size: 24px">
+            <h3 style="margin: 0px 8px; margin-top: 32PX">MATRÍCULA</h3>
+            <input type="text" class="input-text input_ID" placeholder="A0102XXXX" required="required" style="font-size: 24px">
             <h3 style="margin: 0px 8px; margin-top: 32PX">CONTRASEÑA</h3>
-            <input type="text" class="input-text input_PASSWORD" placeholder="Contraseña" required="required" style="font-size: 24px">
+            <input type="text" class="input-text input_PASSWORD" placeholder="A0102XXXX" required="required" style="font-size: 24px">
+            <h3 style="margin: 0px 8px; margin-top: 32PX">CONFIRMAR CONTRASEÑA</h3>
+            <input type="text" class="input-text input_PASSWORD_CONFIRM" placeholder="A0102XXXX" required="required" style="font-size: 24px">
             <hr class="line-break bottom-space top-space" style="margin: auto 8px; width: auto">
             <div class="input-button-group">
-                <input type="button" value="registrarse" class="button_register">  
-                <input type="button" value="iniciar sesión" style="background: rgb(0,122,255); color: white" class="button_login">   
+                <input type="button" value="ya tengo una cuenta" class="button_login">  
+                <input type="button" value="iniciar sesión" style="background: rgb(0,122,255); color: white" class="button_register">   
             </div>
         </div>
       </div>
@@ -422,21 +425,27 @@
             messagingSenderId: "613390401674"
         };
         firebase.initializeApp(config);
+        document.querySelector(".button_login").addEventListener("click", function(){
+            window.location = "login.html"
+        })
         firebase.auth().onAuthStateChanged(function(user){
             if(user){
                 window.location = "index.html"
             }
         })
-        document.querySelector(".button_register").addEventListener("click", function(){
-            window.location = "register.html"
-        })
-        document.querySelector(".button_login").addEventListener("click", login);
-        function login(){
-            var mail = document.querySelector(".input_MAIL").value;
+        document.querySelector(".button_register").addEventListener("click", register);
+        function register(){
+            var name = document.querySelector(".input_NAME").value;
+            var id = document.querySelector(".input_ID").value;
             var password = document.querySelector(".input_PASSWORD").value;
-            if(mail && password){
-                firebase.auth().signInWithEmailAndPassword(mail, password).then(function(user){
-                    window.location = "index.html"
+            var password_confirm = document.querySelector(".input_PASSWORD_CONFIRM").value;
+            if(name && id && password && password_confirm){
+                firebase.auth().createUserWithEmailAndPassword(id+"@itesm.mx", password).then(function(user){
+                    if(user){
+                        firebase.auth().currentUser.updateProfile({displayName: name});
+                        firebase.auth().currentUser.sendEmailVerification()
+                        window.location = "index.html"
+                    }
                 })
             }
         }
