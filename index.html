@@ -532,11 +532,11 @@
             if(item['TARGET'] == firebase.auth().currentUser.email){
               netBalance = netBalance + item['QUANTITY'];
               depositCount++;
-              depositMount = depositCount +  item['QUANTITY']
+              depositMount = depositMount +  item['QUANTITY']
             } else if(item['USER'] == firebase.auth().currentUser.email){
               netBalance = netBalance - item['QUANTITY'];
               debtCount++;
-              debtMount = debtCount +  item['QUANTITY']
+              debtMount = debtMount +  item['QUANTITY']
             }
           })
           if(netBalance<0){
