@@ -469,7 +469,7 @@
           document.querySelector("._user-id").innerHTML = firebase.auth().currentUser.email.split("@")[0];
         }
       })
-      
+      showModalDialog(); 
       returnBankTransfers();
       document.querySelector(".fab").addEventListener("click", showModalDialog);
       document.querySelector(".app.modal-isopen").addEventListener("click", hideModalDialog);
@@ -531,11 +531,12 @@
           QUANTITY: QUANTITY,
           DATE: new Date(),
           FINISHED: false, 
-          USER: firebase.auth().currentUser.email.split("@")[0],
+          USER: firebase.auth().currentUser.email,
           TYPE: 'PAYMENT'
         }
         firebase.firestore().collection("bankTransfers").doc().set(submitTransferObj)
         hideModalDialog(); 
+        returnBankTransfers(); 
         //console.log(submitTransferObj)
       }
 
