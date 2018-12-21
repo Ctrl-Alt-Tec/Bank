@@ -534,9 +534,9 @@
               depositCount++;
               depositMount = depositMount +  item['QUANTITY']
             } else if(item['USER'] == firebase.auth().currentUser.email){
-              netBalance = netBalance - item['QUANTITY'];
+              netBalance = parseInt(netBalance) - parseInt(item['QUANTITY']);
               debtCount++;
-              debtMount = debtMount +  item['QUANTITY']
+              debtMount = parseInt(debtMount) + parseInt(item['QUANTITY'])
             }
           })
           if(netBalance<0){
