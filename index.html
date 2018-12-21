@@ -387,7 +387,7 @@
       <h1 class="app-title">MI ESTADO</h1>
       <div class="app-section" style="text-align: center">
         <div class="card account-balance">
-            <span class="emphasis-main">$538</span>
+            <span class="emphasis-main _user-balance">$538</span>
             <hr class="line-break bottom-space">
             <h2 class="_user-name"></h2>
             <div class="tag _user-id"></div>
@@ -396,13 +396,13 @@
       <div class="app-section account-summary">
         <div>
           <i class="material-icons" style="font-size: 64px;">arrow_upward</i>
-          <h3>DEPÓSITOS (5)</h2>
-          <span class="emphasis-1">$1307</span>
+          <h3 class="_deposit-count">DEPÓSITOS (5)</h2>
+          <span class="emphasis-1 _deposit-mount">$1307</span>
         </div>
         <div>
           <i class="material-icons" style="font-size: 64px;">arrow_downward</i>
-          <h3>CARGOS (3)</H3>
-          <span class="emphasis-1">$1307</span>
+          <h3 class="_debt-count">CARGOS (3)</H3>
+          <span class="emphasis-1 _debt-mount">$1307</span>
         </div>
       </div>
       <div class="app-section account-groups">
@@ -462,24 +462,37 @@
         messagingSenderId: "613390401674"
       };
       firebase.initializeApp(config);
+      firebase.firestore().settings({timestampsInSnapshots: true})
 
       firebase.auth().onAuthStateChanged(function(user){
         if(!user){
           window.location = "login.html"
         }else{
+          returnBankTransfers();
+
           document.querySelector("._user-name").innerHTML = firebase.auth().currentUser.displayName;
           document.querySelector("._user-id").innerHTML = firebase.auth().currentUser.email.split("@")[0];
+
+          console.log()
         }
       })
       showModalDialog(); 
-      returnBankTransfers();
+     
       document.querySelector(".fab").addEventListener("click", showModalDialog);
       document.querySelector(".app.modal-isopen").addEventListener("click", hideModalDialog);
       document.querySelector(".button_hideModalDialog").addEventListener("click", hideModalDialog);
       document.querySelector(".button_submitTransfer").addEventListener("click", submitTransfer);
+
+      
+
+      
       function returnBankTransfers(){
+        var arrayBankTransfers = [];
         firebase.firestore().collection("bankTransfers").get().then(function(data){
           data.forEach(function(doc){
+
+            arrayBankTransfers.push(doc.data());
+
             var documentCard = document.createElement("div")
             documentCard.setAttribute("class","card transfer");
 
@@ -510,6 +523,27 @@
 
             document.querySelector(".allTransfers").appendChild(documentCard)
           });
+          var netBalance = 0;
+          var depositCount = 0;
+          var depositMount = 0;
+          var debtCount = 0;
+          var debtMount = 0;
+          arrayBankTransfers.forEach(function(item){
+            if(item['TARGET'] == firebase.auth().currentUser.email){
+              netBalance = netBalance + item['QUANTITY'];
+              depositCount++;
+              depositMount = depositCount +  item['QUANTITY']
+            } else if(item['USER'] == firebase.auth().currentUser.email){
+              netBalance = netBalance - item['QUANTITY'];
+              debtCount++;
+              debtMount = debtCount +  item['QUANTITY']
+            }
+          })
+          document.querySelector("._user-balance").innerHTML = "$"+netBalance;
+          document.querySelector("._deposit-count").innerHTML = "DEPÓSITOS ("+depositCount+")";
+          document.querySelector("._debt-count").innerHTML = "CARGOS ("+debtCount+")";
+          document.querySelector("._deposit-mount").innerHTML = "$"+depositMount;
+          document.querySelector("._debt-mount").innerHTML = "$"+debtMount;
         })
       }
       function showModalDialog(){
@@ -522,7 +556,6 @@
         document.querySelector(".modal").style.display = "none";
         document.querySelector(".fab").style.display = "flex";
       }
-
       function submitTransfer(){
         var TARGET = document.querySelector(".input_TARGET").value;
         var CONCEPT = document.querySelector(".input_CONCEPT").value;
@@ -530,16 +563,19 @@
         var submitTransferObj = {
           TARGET: TARGET,
           CONCEPT: CONCEPT,
-          QUANTITY: QUANTITY,
+          QUANTITY: parseInt(QUANTITY),
           DATE: new Date(),
           FINISHED: false, 
           USER: firebase.auth().currentUser.email,
           TYPE: 'PAYMENT'
         }
-        firebase.firestore().collection("bankTransfers").doc().set(submitTransferObj)
-        hideModalDialog(); 
-        returnBankTransfers(); 
-        //console.log(submitTransferObj)
+        if(TARGET && QUANTITY > 0 && TARGET != firebase.auth().currentUser.email && TARGET != firebase.auth().currentUser.email.split("@")[0]){
+          firebase.firestore().collection("bankTransfers").doc().set(submitTransferObj)
+          hideModalDialog(); 
+          returnBankTransfers();
+        } else {
+          alert("Ingresa todos los datos")
+        }
       }
 
     </script>
