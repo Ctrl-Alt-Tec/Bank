@@ -395,12 +395,12 @@
       </div>
       <div class="app-section account-summary">
         <div>
-          <i class="material-icons" style="font-size: 64px;">arrow_upward</i>
+          <i class="material-icons" style="font-size: 64px;">add_circle</i>
           <h3 class="_deposit-count">DEPÓSITOS (5)</h2>
           <span class="emphasis-1 _deposit-mount">$1307</span>
         </div>
         <div>
-          <i class="material-icons" style="font-size: 64px;">arrow_downward</i>
+          <i class="material-icons" style="font-size: 64px;">remove_circle</i>
           <h3 class="_debt-count">CARGOS (3)</H3>
           <span class="emphasis-1 _debt-mount">$1307</span>
         </div>
@@ -539,7 +539,11 @@
               debtMount = debtCount +  item['QUANTITY']
             }
           })
-          document.querySelector("._user-balance").innerHTML = "$"+netBalance;
+          if(netBalance<0){
+            document.querySelector("._user-balance").innerHTML = "-$"+Math.abs(netBalance);
+          }else{
+            document.querySelector("._user-balance").innerHTML = "$"+netBalance;
+          }
           document.querySelector("._deposit-count").innerHTML = "DEPÓSITOS ("+depositCount+")";
           document.querySelector("._debt-count").innerHTML = "CARGOS ("+debtCount+")";
           document.querySelector("._deposit-mount").innerHTML = "$"+depositMount;
