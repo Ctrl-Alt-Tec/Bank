@@ -397,7 +397,7 @@
             <h3 style="margin: 0px 8px">USUARIO</h3>
             <input type="text" class="input-text input_MAIL" placeholder="A0102XXXX" required="required" style="font-size: 24px">
             <h3 style="margin: 0px 8px; margin-top: 32PX">CONTRASEÑA</h3>
-            <input type="text" class="input-text input_PASSWORD" placeholder="Contraseña" required="required" style="font-size: 24px">
+            <input type="password" class="input-text input_PASSWORD" placeholder="Contraseña" required="required" style="font-size: 24px">
             <hr class="line-break bottom-space top-space" style="margin: auto 8px; width: auto">
             <div class="input-button-group">
                 <input type="button" value="registrarse" class="button_register">  
@@ -437,7 +437,11 @@
             if(mail && password){
                 firebase.auth().signInWithEmailAndPassword(mail, password).then(function(user){
                     window.location = "index.html"
+                }).catch(function(error){
+                    alert(error.message)
                 })
+            } else{
+                alert("Ingresa todos los datos")
             }
         }
 

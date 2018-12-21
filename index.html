@@ -530,9 +530,9 @@
           var debtMount = 0;
           arrayBankTransfers.forEach(function(item){
             if(item['TARGET'].toLowerCase() == firebase.auth().currentUser.email || (item['TARGET'].toLowerCase() == firebase.auth().currentUser.email.split("@")[0] && firebase.auth().currentUser.email.split("@")[1] == "itesm.mx" )){
-              netBalance = netBalance + item['QUANTITY'];
+              netBalance = parseInt(netBalance) + parseInt(item['QUANTITY']);
               depositCount++;
-              depositMount = depositMount +  item['QUANTITY']
+              depositMount = parseInt(depositMount) +  parseInt(item['QUANTITY'])
             } else if(item['USER'] == firebase.auth().currentUser.email){
               netBalance = parseInt(netBalance) - parseInt(item['QUANTITY']);
               debtCount++;

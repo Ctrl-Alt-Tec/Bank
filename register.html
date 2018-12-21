@@ -398,9 +398,9 @@
             <h3 style="margin: 0px 8px; margin-top: 32PX">MATRÍCULA</h3>
             <input type="text" class="input-text input_ID" placeholder="A0102XXXX" required="required" style="font-size: 24px">
             <h3 style="margin: 0px 8px; margin-top: 32PX">CONTRASEÑA</h3>
-            <input type="text" class="input-text input_PASSWORD" placeholder="A0102XXXX" required="required" style="font-size: 24px">
+            <input type="password" class="input-text input_PASSWORD" placeholder="A0102XXXX" required="required" style="font-size: 24px">
             <h3 style="margin: 0px 8px; margin-top: 32PX">CONFIRMAR CONTRASEÑA</h3>
-            <input type="text" class="input-text input_PASSWORD_CONFIRM" placeholder="A0102XXXX" required="required" style="font-size: 24px">
+            <input type="password" class="input-text input_PASSWORD_CONFIRM" placeholder="A0102XXXX" required="required" style="font-size: 24px">
             <hr class="line-break bottom-space top-space" style="margin: auto 8px; width: auto">
             <div class="input-button-group">
                 <input type="button" value="ya tengo una cuenta" class="button_login">  
@@ -440,13 +440,21 @@
             var password = document.querySelector(".input_PASSWORD").value;
             var password_confirm = document.querySelector(".input_PASSWORD_CONFIRM").value;
             if(name && id && password && password_confirm){
-                firebase.auth().createUserWithEmailAndPassword(id+"@itesm.mx", password).then(function(user){
-                    if(user){
-                        firebase.auth().currentUser.updateProfile({displayName: name});
-                        firebase.auth().currentUser.sendEmailVerification()
-                        window.location = "index.html"
-                    }
-                })
+                if(password == password_confirm){
+                    firebase.auth().createUserWithEmailAndPassword(id+"@itesm.mx", password).then(function(user){
+                        if(user){
+                            firebase.auth().currentUser.updateProfile({displayName: name});
+                            firebase.auth().currentUser.sendEmailVerification()
+                            window.location = "index.html"
+                        }
+                    }).catch(function(error){
+                        alert(error.message)
+                    })
+                }else{
+                    alert("Las contraseñas no coinciden")
+                }
+            }else{
+                alert("Ingresa todos los datos")
             }
         }
 
