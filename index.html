@@ -3,20 +3,6 @@
     
     
     <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
-    <script>
-      // Initialize Firebase
-      var config = {
-        apiKey: "AIzaSyDlqcRMOR7P4PeKnnY3-6OEjMHZ2xnG3bc",
-        authDomain: "ctrl-alt-tec-api.firebaseapp.com",
-        databaseURL: "https://ctrl-alt-tec-api.firebaseio.com",
-        projectId: "ctrl-alt-tec-api",
-        storageBucket: "ctrl-alt-tec-api.appspot.com",
-        messagingSenderId: "613390401674"
-      };
-      firebase.initializeApp(config);
-      
-    </script>
-
     <title>CTRL+ALT+TEC Bank</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.75">
     <script src="https://www.gstatic.com/firebasejs/5.4.2/firebase.js"></script>
@@ -53,6 +39,9 @@
         background-color: snow;
         align-items: center;
         width: 100%;
+        min-height: 100%;
+        padding-bottom: 80px;
+        box-sizing: border-box
       }
     
       .logo{
@@ -172,14 +161,15 @@
         width: 100%;
         max-width: 1020px;
         top: auto;
-        bottom: auto;
+        bottom: 0px;
         left: auto;
         right: auto;
         height: auto;
         max-height: 100%;
         overflow: auto;
         display: flex;
-        flex-direction: column
+        flex-direction: column;
+        box-sizing: border-box
       }
 
       h1{
@@ -206,6 +196,11 @@
         font-family: 'Source Sans Pro', sans-serif;
         font-size: 120px;
       }
+      .emphasis-sub{
+        font-family: 'Source Sans Pro', sans-serif;
+        font-size: 64px;
+        font-weight: 600;
+      }
       .emphasis-1{
         font-family: 'Source Sans Pro', sans-serif;
         font-size: 32px;
@@ -231,13 +226,14 @@
 
       .line-break{
         height: 0px;
-        width: 100%
+        width: 100%;
+        margin: 0px !important;
       }
       .line-break.bottom-space{
-        margin-bottom: 8px;
+        margin-bottom: 8px !important;
       }
       .line-break.top-space{
-        margin-top: 8px;
+        margin-top: 8px !important;
       }
 
       .account-balance{
@@ -260,6 +256,38 @@
       .account-groups{
         flex-direction: column
       }
+      .transfer{
+        width: 100%;
+        max-width: 1020px;
+        padding: 8px 16px; 
+        flex-direction: column;
+        margin: 8px 0px
+      }
+      .transfer>*{
+        margin: 8px 16px;
+      }
+      .transfer>.emphasis-sub{
+        text-align: center; 
+      }
+      .transfer .transfer-details{
+        flex-direction: row;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .transfer .transfer-details>*{
+        flex: 1
+      }
+      .transfer>.transfer-details>*:nth-child(1){
+        text-align: left
+      }
+      .transfer>.transfer-details>*:nth-child(2){
+        text-align: center;
+        font-size: 40px !important;
+      }
+      .transfer>.transfer-details>*:nth-child(3){
+        text-align: right
+      }
 
       .input-text{
         display: flex;
@@ -272,7 +300,7 @@
         margin: 8px
       }
       .input-text:invalid{
-        background: rgb(200,200,200)
+        background: rgb(240,240,240)
       }
       .input-text:valid{
         background: transparent;
@@ -285,7 +313,7 @@
         background: transparent;
         border: none;
       }
-      .input-text:valid:active{
+      .input-text:valid:focus{
         border-bottom: 2px solid rgb(0,122,255);
       }
       .input-radio-button{
@@ -306,7 +334,7 @@
         display: none;
       }
       input[type="radio"]+label{
-        background: rgb(200,200,200);
+        background: rgb(240, 240, 240);
         width: 50%;
         padding: 8px;
         font-family: 'Source Sans Pro', sans-serif;
@@ -316,6 +344,24 @@
       input[type="radio"]:checked+label{
         background: rgb(0,122,245);
         color: white
+      }
+      input[type="button"]{
+        margin: 4px;
+        padding: 8px;
+        font-family: 'Source Sans Pro', sans-serif;
+        text-align: center;
+        font-size: 24px; 
+        font-weight: 600;
+        background: rgb(240,240,240);
+        border: none;
+        border-radius: 16px;
+      }
+      .input-button-group{
+        display: flex;
+        padding: 4px
+      }
+      .input-button-group input[type="button"]{
+        flex: 1
       }
     </style>
   </head>
@@ -369,22 +415,37 @@
         </ul>
       </div>
       
+
+      <h1 class="app-title">TRANSFERENCIAS</h1>
+      <div class="app-section allTransfers">
+        <div class="card transfer">
+          <div class="emphasis-sub">$32</div>
+          <hr class="line-break bottom-space">
+          <div class="transfer-details">
+            <h3>Eduardo Villalpando</h3>
+            <i class="material-icons" style="font-size: 40px">arrow_forward</i>
+            <h3>Juan Carlos Garfias</h3>
+          </div>
+        </div>
+      </div>
     </div>
+
+
+
     <div class="modal">
-        <h1 class="app-title">NUEVA OPERACION</h1>
+        <h1 class="app-title">NUEVA TRANSFERENCIA</h1>
         <form style="padding: 0px 8px">
-          <h3 style="margin: 0px 8px">Necesito</h3>
-          <div class="input-radio-button">
-              <input type="radio" name="TYPE" value="PAYMENT" id="TYPE_PAYMENT"> <label for="TYPE_PAYMENT">PAGAR</label>
-              <input type="radio" name="TYPE" value="RETRIEVAL" id="TYPE_RETRIEVAL"><label for="TYPE_RETRIEVAL">PEDIR</label>
-            </div>
-          <input type="text" class="input-text transparent emphasis-main" placeholder="$12">
           <h3 style="margin: 0px 8px">A la orden de</h3>
-          <input type="text" class="input-text" placeholder="A0102XXXX" required="required" style="font-size: 24px">
+          <input type="text" class="input-text input_TARGET" placeholder="A0102XXXX" required="required" style="font-size: 24px">
           <h3 style="margin: 0px 8px; margin-top: 32px">Concepto:</h3>
-          <input type="text" class="input-text" placeholder="Pago de materiales" required="required" style="font-size: 24px">
-          <hr class="line-break bottom-space top-space" style="margin-top: 32px">
-          qwert
+          <input type="text" class="input-text input_CONCEPT" placeholder="Pago de materiales" required="required" style="font-size: 24px">
+          
+          <input type="number" class="input-text transparent emphasis-main input_QUANTITY" placeholder="$00" style="text-align: right" min="1">
+          <hr class="line-break bottom-space top-space" style="margin: auto 8px; width: auto">
+          <div class="input-button-group">
+            <input type="button" value="cancelar" class="button_hideModalDialog">  
+            <input type="button" value="enviar" style="background: rgb(0,122,255); color: white" class="button_submitTransfer">   
+          </div>
 
         </form>
     </div>
@@ -392,8 +453,61 @@
           <i class="material-icons" style="font-size: 64px;">add</i>
       </div>
     <script>
+
+        // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyDlqcRMOR7P4PeKnnY3-6OEjMHZ2xnG3bc",
+        authDomain: "ctrl-alt-tec-api.firebaseapp.com",
+        databaseURL: "https://ctrl-alt-tec-api.firebaseio.com",
+        projectId: "ctrl-alt-tec-api",
+        storageBucket: "ctrl-alt-tec-api.appspot.com",
+        messagingSenderId: "613390401674"
+      };
+      firebase.initializeApp(config);
+      returnBankTransfers();
       document.querySelector(".fab").addEventListener("click", showModalDialog);
       document.querySelector(".app.modal-isopen").addEventListener("click", hideModalDialog);
+      document.querySelector(".button_hideModalDialog").addEventListener("click", hideModalDialog);
+      document.querySelector(".button_submitTransfer").addEventListener("click", submitTransfer);
+      function returnBankTransfers(){
+        firebase.firestore().collection("bankTransfers").get().then(function(data){
+          data.forEach(function(doc){
+            var documentCard = document.createElement("div")
+            documentCard.setAttribute("class","card transfer");
+
+            var cardEmphsis = document.createElement("div")
+            cardEmphsis.setAttribute("class","emphasis-sub");
+
+            var cardHr = document.createElement("hr")
+            cardHr.setAttribute("class","line-break bottom-space");
+
+            var cardTransferDetails = document.createElement("div")
+            cardTransferDetails.setAttribute("class","transfer-details");
+
+            var cardTransferDetailsFirst = document.createElement("h3");
+            var cardTransferDetailsArrow = document.createElement("i");
+            var cardTransferDetailsLast = document.createElement("h3");
+            cardTransferDetailsArrow.setAttribute("class","material-icons")
+            cardTransferDetailsArrow.appendChild(document.createTextNode("arrow_forward"));
+
+            cardEmphsis.appendChild(document.createTextNode("$"+doc.data()['QUANTITY']));
+            cardTransferDetailsFirst.appendChild(document.createTextNode(doc.data()['USER']));
+            cardTransferDetailsLast.appendChild(document.createTextNode(doc.data()['TARGET']));
+
+
+            cardTransferDetails.appendChild(cardTransferDetailsFirst)
+            cardTransferDetails.appendChild(cardTransferDetailsArrow)
+            cardTransferDetails.appendChild(cardTransferDetailsLast)
+
+            documentCard.appendChild(cardEmphsis)
+            documentCard.appendChild(cardHr)
+            documentCard.appendChild(cardTransferDetails)
+
+
+            document.querySelector(".allTransfers").appendChild(documentCard)
+          });
+        })
+      }
       function showModalDialog(){
         document.querySelector(".app").classList.add("modal-isopen");
         document.querySelector(".modal").style.display = "flex";
@@ -403,6 +517,24 @@
         document.querySelector(".app").classList.remove("modal-isopen");
         document.querySelector(".modal").style.display = "none";
         document.querySelector(".fab").style.display = "flex";
+      }
+
+      function submitTransfer(){
+        var TARGET = document.querySelector(".input_TARGET").value;
+        var CONCEPT = document.querySelector(".input_CONCEPT").value;
+        var QUANTITY = document.querySelector(".input_QUANTITY").value;
+        var submitTransferObj = {
+          TARGET: TARGET,
+          CONCEPT: CONCEPT,
+          QUANTITY: QUANTITY,
+          DATE: new Date(),
+          FINISHED: false, 
+          USER: 'TEST',
+          TYPE: 'PAYMENT'
+        }
+        firebase.firestore().collection("bankTransfers").doc().set(submitTransferObj)
+        hideModalDialog(); 
+        //console.log(submitTransferObj)
       }
 
     </script>
