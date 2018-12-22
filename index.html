@@ -7,10 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=0.75">
     <script src="https://www.gstatic.com/firebasejs/5.4.2/firebase.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+    rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,800,900" rel="stylesheet">
     <script src="https://apis.google.com/js/api.js"></script>
     <style>
+      .material-icons{
+        font-family: 'Material Icons' !important;
+      }
       .app.modal-isopen{
         filter: brightness(0.4) blur(16px);
         position: fixed
@@ -99,10 +102,30 @@
         flex: 1;
         background-color: #cdac00;
         font-size: 16px;
-        font-weight: 600
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
       }
       .header-toolbar-button .material-icons{
         font-size: 32px !important;
+      }
+      .app-toolbar{
+        position: sticky;
+        top: 88px;
+        background: #e6c200;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 8px;
+        width: 100%;
+        box-sizing: border-box
+      }
+      .app-toolbar input[type="button"]{
+        background: #cdac00
+      }
+      .app-toolbar input[type="button"].material-icons{
+        font-size: 32px !important
       }
       .fab{
         position: fixed;
@@ -308,12 +331,13 @@
       .input-text:invalid{
         background: rgb(240,240,240)
       }
-      .input-text:valid{
+      .input-text:not(.background-nohide):valid{
         background: transparent;
         padding: 8px 0px;
         border-radius: 0px;
         border-bottom: 2px solid rgb(200,200,200);
       }
+      
 
       .input-text.transparent{
         background: transparent;
@@ -370,20 +394,21 @@
         flex: 1
       }
     </style>
+    
   </head>
   <body>
-    <div class="app modal-isopen">
-      <div class='header'>
-        <div class="header-top">
-          <a href="http://ctrl-alt-tec.github.io/Website" style="margin-right: 8px"><img src='https://ctrl-alt-tec.github.io/Website/img/LOGO-INLINE.png' height="48px"/></a>
-          <img class="logo" src="logo-name.png">
-        </div>
-        <div class="header-toolbar">
-          <div class="header-toolbar-button"><i class="material-icons">account_circle</i></div>
-          <div class="header-toolbar-button"><i class="material-icons">history</i></div>
-          <div class="header-toolbar-button"><i class="material-icons">business</i></div>
-        </div>
+    <div class='header'>
+      <div class="header-top">
+        <a href="http://ctrl-alt-tec.github.io/Website" style="margin-right: 8px"><img src='https://ctrl-alt-tec.github.io/Website/img/LOGO-INLINE.png' height="48px"/></a>
+        <img class="logo" src="logo-name.png">
       </div>
+      <div class="header-toolbar">
+        <div class="header-toolbar-button link_app-tab_public"><i class="material-icons">public</i></div>
+        <div class="header-toolbar-button"><i class="material-icons">group</i></div>
+        <div class="header-toolbar-button link_app-tab_balance"><i class="material-icons">account_circle</i> usuario</div>
+      </div>
+    </div>
+    <div class="app modal-isopen app-tab_balance">
       <h1 class="app-title">MI ESTADO</h1>
       <div class="app-section" style="text-align: center">
         <div class="card account-balance">
@@ -420,15 +445,28 @@
           <li><h3>Pláticas</h3></li>
         </ul>
       </div>
-      
-
-      <h1 class="app-title">TRANSFERENCIAS</h1>
-      <div class="app-section allTransfers">
-        
+      <hr class="line-break bottom-space">
+      <div class="app-section ">
+          <input type="button" value="Cerrar sesión" class="button_signOut">                
+        </div>
+      <div class="fab">
+          <i class="material-icons" style="font-size: 64px;">add</i>
       </div>
     </div>
 
+    <div class="app modal-isopen app-tab_public">
+        <div class="app-toolbar">
+          <input type="search" class="input-text background-nohide" placeholder="Buscar" required="required" style="font-size: 24px">
+            <input type="button" value="sort_by_alpha" class="material-icons">  
+            <input type="button" value="filter_list" class="material-icons">   
+        </div>
 
+        <h1 class="app-title">TRANSFERENCIAS</h1>
+        <div class="app-section allTransfers">
+        
+        </div>
+        
+    </div>
 
     <div class="modal">
         <h1 class="app-title">NUEVA TRANSFERENCIA</h1>
@@ -447,9 +485,7 @@
 
         </form>
     </div>
-    <div class="fab">
-          <i class="material-icons" style="font-size: 64px;">add</i>
-      </div>
+    
     <script>
 
         // Initialize Firebase
@@ -463,15 +499,15 @@
       };
       firebase.initializeApp(config);
       firebase.firestore().settings({timestampsInSnapshots: true})
-
       firebase.auth().onAuthStateChanged(function(user){
         if(!user){
           window.location = "login.html"
         }else{
+          switchToTab(".app-tab_balance");          
           returnBankTransfers();
-
           document.querySelector("._user-name").innerHTML = firebase.auth().currentUser.displayName;
           document.querySelector("._user-id").innerHTML = firebase.auth().currentUser.email.split("@")[0];
+          document.querySelector(".link_app-tab_balance").innerHTML = "<i class='material-icons'>account_circle</i>"+firebase.auth().currentUser.email.split("@")[0];
 
           console.log()
         }
@@ -482,9 +518,21 @@
       document.querySelector(".app.modal-isopen").addEventListener("click", hideModalDialog);
       document.querySelector(".button_hideModalDialog").addEventListener("click", hideModalDialog);
       document.querySelector(".button_submitTransfer").addEventListener("click", submitTransfer);
+      document.querySelector(".link_app-tab_balance").addEventListener("click",  function(){
+        switchToTab(".app-tab_balance")
+      });
+      document.querySelector(".link_app-tab_public").addEventListener("click",  function(){
+        switchToTab(".app-tab_public")
+      });
+      document.querySelector(".button_signOut").addEventListener("click", function(){
+        firebase.auth().signOut();
+      })
 
       
-
+      function switchToTab(tabName){
+        document.querySelector(".app:not("+tabName+")").style.display = "none";
+        document.querySelector(tabName).style.display = "flex";
+      }
       
       function returnBankTransfers(){
         var arrayBankTransfers = [];
@@ -551,12 +599,16 @@
         })
       }
       function showModalDialog(){
-        document.querySelector(".app").classList.add("modal-isopen");
+        document.querySelectorAll(".app").forEach(function(item){
+          item.classList.add("modal-isopen");
+        }) 
         document.querySelector(".modal").style.display = "flex";
         document.querySelector(".fab").style.display = "none";
       }  
       function hideModalDialog(){
-        document.querySelector(".app").classList.remove("modal-isopen");
+        document.querySelectorAll(".app").forEach(function(item){
+          item.classList.remove("modal-isopen");
+        })
         document.querySelector(".modal").style.display = "none";
         document.querySelector(".fab").style.display = "flex";
       }
